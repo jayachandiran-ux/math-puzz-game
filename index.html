@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Math Puzz</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    text-align:center;
+    overflow:hidden;
+}
+.page{
+    display:none;
+    height:100vh;
+    width:100%;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    position:absolute;
+}
+
+/* ========== HOME ========== */
+#home{
+    background:linear-gradient(135deg,#ff512f,#dd2476,#1fa2ff,#12d8fa,#f7971e);
+    color:white;
+    position:relative;
+}
+@keyframes burstIn {
+    0%{ transform:scale(0); opacity:0; }
+    60%{ transform:scale(1.3); }
+    100%{ transform:scale(1); opacity:1; }
+}
+.title{
+    font-size:60px;
+    animation:burstIn 1s ease-out;
+}
+
+/* Symbols fix for mobile + desktop */
+.symbols {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 15px;
+    font-size: 32px;
+}
+.symbols span{
+    display: inline-block;
+}
+
+/* Mobile scaling */
+@media (max-width: 600px){
+    .title{ font-size:48px; }
+    .symbols{ font-size:28px; gap:10px; }
+}
+
+/* Play button */
+.play-btn{
+    width:220px;
+    height:70px;
+    background:white;
+    color:black;
+    border-radius:50px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+    font-size:24px;
+    cursor:pointer;
+    transition:0.3s;
+}
+.play-btn:active{
+    transform:scale(0.9);
+}
+
+/* ========== LEVELS ========== */
+#levels{
+    background:linear-gradient(135deg,#1fa2ff,#12d8da,#a6ffcb);
+}
+.level-box{
+    width:80%;
+    max-width:800px;
+    min-height:400px;
+    background:white;
+    border:4px solid black;
+    border-radius:20px;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+@keyframes popIn{
+    0%{ transform:scale(0); opacity:0; }
+    100%{ transform:scale(1); opacity:1; }
+}
+.circle{
+    width:100px;
+    height:100px;
+    background:#f4f4f4;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:15px;
+    font-weight:bold;
+    position:relative;
+    cursor:pointer;
+    border:2px solid black;
+    animation:popIn 0.5s ease forwards;
+    text-align:center;
+}
+.locked{
+    background:#ccc;
+    color:#777;
+    cursor:not-allowed;
+}
+.lock-icon{
+    position:absolute;
+    bottom:10px;
+    font-size:18px;
+}
+
+/* ========== STAGE PAGE ========== */
+#stageSelect{
+    background:#ffeaa7;
+    position:relative;
+}
+.stage-title{
+    font-size:28px;
+    font-weight:bold;
+    margin-bottom:20px;
+}
+
+/* ========== QUESTION PAGE ========== */
+#questionPage{
+    background:#f4f4f4;
+}
+.question-box{
+    background:white;
+    border:4px solid black;
+    border-radius:20px;
+    padding:40px;
+    min-width:300px;
+}
+.question{
+    font-size:36px;
+    margin-bottom:20px;
+}
+input{
+    width:220px;
+    height:60px;
+    border-radius:50px;
+    border:2px solid #333;
+    text-align:center;
+    font-size:22px;
+}
+.submit-btn{
+    margin-top:20px;
+    width:150px;
+    height:50px;
+    border-radius:50px;
+    border:none;
+    background:#333;
+    color:white;
+    cursor:pointer;
+    transition:0.2s;
+}
+.submit-btn:active{
+    transform:scale(0.9);
+}
+
+/* ========== RESULT PAGES ========== */
+#correctPage{ background:green; color:white; }
+#wrongPage{ background:red; color:white; }
+.result-text{ font-size:50px; }
+.bottom-btn{
+    position:absolute;
+    bottom:40px;
+    width:200px;
+    height:60px;
+    background:white;
+    color:black;
+    border-radius:50px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+/* ========== LEVEL COMPLETED ========== */
+#levelCompletePage{
+    background:#000000cc;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.complete-box{
+    background:white;
+    border:4px solid black;
+    padding:50px;
+    border-radius:25px;
+    font-size:40px;
+    font-weight:bold;
+    animation:bloom 0.6s ease-out forwards;
+}
+@keyframes bloom{
+    0%{ transform:scale(0); opacity:0; }
+    60%{ transform:scale(1.3); }
+    100%{ transform:scale(1); opacity:1; }
+}
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<div id="home" class="page">
+    <div class="symbols">
+        <span>➕</span>
+        <span>➖</span>
+        <span>✖</span>
+        <span>➗</span>
+    </div>
+    <div class="title">Math Puzz</div>
+    <br><br>
+    <div class="play-btn" onclick="goToLevels()">PLAY</div>
+</div>
+
+<!-- LEVELS -->
+<div id="levels" class="page">
+    <div class="level-box" id="levelContainer"></div>
+</div>
+
+<!-- STAGE SELECT -->
+<div id="stageSelect" class="page">
+    <div class="stage-title" id="stageHeading"></div>
+    <div id="stageContainer" style="display:flex; flex-wrap:wrap; justify-content:center;"></div>
+    <div class="bottom-btn" onclick="showPage('levels')">BACK</div>
+</div>
+
+<!-- QUESTION -->
+<div id="questionPage" class="page">
+    <div class="question-box">
+        <div class="question" id="questionText"></div>
+        <input type="number" id="answerInput"><br>
+        <button class="submit-btn" onclick="checkAnswer()">SUBMIT</button>
+    </div>
+</div>
+
+<!-- CORRECT -->
+<div id="correctPage" class="page">
+    <div class="result-text">✔ CORRECT</div>
+    <div class="bottom-btn" onclick="afterCorrect()">NEXT</div>
+</div>
+
+<!-- WRONG -->
+<div id="wrongPage" class="page">
+    <div class="result-text">✖ WRONG</div>
+    <div class="bottom-btn" onclick="retryStage()">TRY AGAIN</div>
+</div>
+
+<!-- LEVEL COMPLETE -->
+<div id="levelCompletePage" class="page">
+    <div class="complete-box" id="completeText"></div>
+</div>
+
+<script>
+let unlockedLevels = 1;
+let unlockedStages = {};
+let currentLevel = 1;
+let currentStage = 1;
+let correctAnswer = 0;
+
+function showPage(id){
+    document.querySelectorAll(".page").forEach(p=>p.style.display="none");
+    document.getElementById(id).style.display="flex";
+}
+
+function goToLevels(){
+    renderLevels();
+    showPage("levels");
+}
+
+function renderLevels(){
+    let levelDiv = document.getElementById("levelContainer");
+    levelDiv.innerHTML="";
+    for(let i=1;i<=10;i++){
+        let div = document.createElement("div");
+        div.className="circle";
+        div.style.animationDelay=(i*0.1)+"s";
+        if(i <= unlockedLevels){
+            div.innerHTML="LEVEL "+i;
+            div.onclick=()=>openStages(i);
+        }else{
+            div.classList.add("locked");
+            div.innerHTML="LEVEL "+i+"<div class='lock-icon'>🔒</div>";
+        }
+        levelDiv.appendChild(div);
+    }
+}
+
+function openStages(level){
+    currentLevel = level;
+    if(!unlockedStages[level]) unlockedStages[level]=1;
+
+    document.getElementById("stageHeading").innerHTML="LEVEL "+level;
+
+    let container=document.getElementById("stageContainer");
+    container.innerHTML="";
+
+    for(let i=1;i<=4;i++){
+        let div=document.createElement("div");
+        div.className="circle";
+        if(i <= unlockedStages[level]){
+            div.innerHTML="STAGE "+i;
+            div.onclick=()=>startStage(i);
+        }else{
+            div.classList.add("locked");
+            div.innerHTML="STAGE "+i+"<div class='lock-icon'>🔒</div>";
+        }
+        container.appendChild(div);
+    }
+
+    showPage("stageSelect");
+}
+
+function startStage(stage){
+    currentStage=stage;
+    document.getElementById("answerInput").value="";
+    generateQuestion();
+    showPage("questionPage");
+}
+
+function generateQuestion(){
+    let min = currentLevel * 2;
+    let max = currentLevel * 10;
+    let num1, num2;
+    switch(currentStage){
+        case 1:
+            num1 = Math.floor(Math.random()*max)+min;
+            num2 = Math.floor(Math.random()*max)+min;
+            correctAnswer=num1+num2;
+            document.getElementById("questionText").innerHTML=num1+" + "+num2+" =";
+            break;
+        case 2:
+            num1 = Math.floor(Math.random()*max)+min;
+            num2 = Math.floor(Math.random()*max)+min;
+            if(num2>num1){let t=num1; num1=num2; num2=t;}
+            correctAnswer=num1-num2;
+            document.getElementById("questionText").innerHTML=num1+" - "+num2+" =";
+            break;
+        case 3:
+            num1 = Math.floor(Math.random()*currentLevel)+2;
+            num2 = Math.floor(Math.random()*currentLevel)+2;
+            correctAnswer=num1*num2;
+            document.getElementById("questionText").innerHTML=num1+" × "+num2+" =";
+            break;
+        case 4:
+            num2 = Math.floor(Math.random()*currentLevel)+2;
+            correctAnswer=Math.floor(Math.random()*currentLevel)+2;
+            num1=num2*correctAnswer;
+            document.getElementById("questionText").innerHTML=num1+" ÷ "+num2+" =";
+            break;
+    }
+}
+
+function checkAnswer(){
+    let ans=parseInt(document.getElementById("answerInput").value);
+    if(ans===correctAnswer) showPage("correctPage");
+    else showPage("wrongPage");
+}
+
+function afterCorrect(){
+    if(currentStage<4){
+        unlockedStages[currentLevel]++;
+        renderLevels();
+        openStages(currentLevel);
+    } else {
+        if(unlockedLevels<10) unlockedLevels++;
+        document.getElementById("completeText").innerHTML="LEVEL "+currentLevel+" COMPLETED";
+        showPage("levelCompletePage");
+        setTimeout(()=>{
+            renderLevels();
+            openStages(currentLevel);
+        },1500);
+    }
+}
+
+function retryStage(){
+    startStage(currentStage);
+}
+
+renderLevels();
+showPage("home");
+</script>
+
+</body>
+</html>
