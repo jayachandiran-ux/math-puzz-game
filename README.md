@@ -131,19 +131,23 @@ No installation required.
 
 ### Home Screen
 
-(Add Image)
+<img width="1918" height="948" alt="image" src="https://github.com/user-attachments/assets/e914667d-eb42-45cc-a8ab-2f70d5661125" />
+
 
 ### Level Selection
 
-(Add Image)
+(<img width="1918" height="943" alt="image" src="https://github.com/user-attachments/assets/79be500f-20be-4e73-b5bf-82d5233ac3bc" />
+
 
 ### Question Screen
 
-(Add Image)
+<img width="1918" height="948" alt="image" src="https://github.com/user-attachments/assets/48a09316-55f9-4f85-a281-d9a49576e5c9" />
+
 
 ### Result Screen
 
-(Add Image)
+<img width="1918" height="948" alt="image" src="https://github.com/user-attachments/assets/44d0b335-018a-4b61-9c68-2c9f0d0dc1b4" />
+
 
 ---
 
