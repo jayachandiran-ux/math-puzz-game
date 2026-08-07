@@ -96,7 +96,7 @@ Each level contains **4 Stages**.
 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/Math-Puzz.git
+[https://github.com/jayachandiran-ux/math-puzz-game/tree/main]
 ```
 
 2. Open
