@@ -8,7 +8,8 @@ Players solve arithmetic questions, unlock stages, complete levels, and improve 
 
 ## 📸 Preview
 
-(Add screenshots here)
+<img width="1918" height="949" alt="image" src="https://github.com/user-attachments/assets/017c95d8-dd20-400b-a98b-9126ce68db86" />
+
 
 ---
 
